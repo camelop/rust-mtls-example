@@ -1,0 +1,15 @@
+[package]
+name = "rust-mtls-example"
+version = "0.1.0"
+authors = ["littleRound"]
+edition = "2018"
+
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+reqwest = { version = "0.11" }
+warp = { version = "0.3", features = ["tls"] }
+
+[features]
+default = ["native-tls"]
+rustls-tls = ["reqwest/rustls-tls-manual-roots"]
+native-tls = ["reqwest/native-tls"]
