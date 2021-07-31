@@ -12,9 +12,9 @@ jobs:
         with:
             components: rustfmt, clippy
       - name: Check
-        run: cargo check --release --locked
+        run: cargo check --release
       - name: Build
-        run: cargo build --locked
+        run: cargo build
       - name: Run tests
         run: cargo test
       - name: Format check
