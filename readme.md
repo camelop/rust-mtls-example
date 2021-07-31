@@ -141,7 +141,7 @@ Notes:
 - A Rust mTLS example using openssl and Actix: https://github.com/sjolicoeur/rust-mtls-example-server/blob/master/bin/create_certs.sh
 - OpenSSL official doc: https://www.openssl.org/docs/man1.1.1/man1/
 - Reqwest doc related to TLS client authentication: https://docs.rs/reqwest/0.11.4/reqwest/struct.ClientBuilder.html#method.identity
-- Sarp doc related to TLS client authentication: https://docs.rs/warp/0.3.1/warp/struct.TlsServer.html#method.client_auth_required_path
+- Warp doc related to TLS client authentication: https://docs.rs/warp/0.3.1/warp/struct.TlsServer.html#method.client_auth_required_path
 
 ## Contributing
 
