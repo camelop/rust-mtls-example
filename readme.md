@@ -1,6 +1,8 @@
 # Rust mTLS example
 
-This is an example of how to support mTLS in Rust. Implementation includes both the client and the server side.
+This is an example of how to support **mTLS** (two-way authentication, with client authentication) in Rust. 
+
+Implementation is quite short and includes **both client and server side**.
 
 - Server: [warp](https://github.com/seanmonstar/warp)
 - Client: [reqwest](https://github.com/seanmonstar/reqwest) (with `native-tls`)
