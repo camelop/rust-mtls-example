@@ -120,9 +120,9 @@ Notes:
     curl -L  https://localhost:3030/ --cacert ca.crt --cert-type P12 --cert client_0.p12:123456 -v
     ```
 
-### Optional - create certificates for more clients
+### Optional
 
-12. Instructions are the same as above
+12. Create certificates for more clients
 
     ```sh
     export CLIENT_NAME=client_1
@@ -133,6 +133,27 @@ Notes:
     # after answering the prompt above
     openssl x509 -req -in ${CLIENT_NAME}.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfile <(printf "subjectAltName=DNS:localhost") -out ${CLIENT_NAME}.crt
     cat ${CLIENT_NAME}.crt ${CLIENT_NAME}.key > ${CLIENT_NAME}.pem
+    openssl pkcs12 -export -in ${CLIENT_NAME}.pem -out ${CLIENT_NAME}.p12 -name "${CLIENT_NAME}"
+    # enter a password (e.g. 123456 (plz don't use weak password in real-world deployment))
+    ```
+
+13. Generate multiple CAs
+
+    ```sh
+    # generate a second CA
+    openssl genrsa -out second_ca.key 2048
+    openssl req -new -x509 -key second_ca.key -out second_ca.crt
+    # answer the prompt
+
+    export CLIENT_NAME=second_client
+    openssl genrsa -out ${CLIENT_NAME}.key 2048
+    openssl req -new -key ${CLIENT_NAME}.key -addext "subjectAltName = DNS:localhost" -out ${CLIENT_NAME}.csr
+    # answer the prompt
+    
+    openssl x509 -req -in ${CLIENT_NAME}.csr -CA second_ca.crt -CAkey second_ca.key -CAcreateserial -extfile <(printf "subjectAltName=DNS:localhost") -out ${CLIENT_NAME}.crt
+    cat ${CLIENT_NAME}.crt ${CLIENT_NAME}.key > ${CLIENT_NAME}.pem
+    openssl pkcs12 -export -in ${CLIENT_NAME}.pem -out ${CLIENT_NAME}.p12 -name "${CLIENT_NAME}"
+    # enter a password (e.g. 123456 (plz don't use weak password in real-world deployment))
     ```
 
 ## Reference: 

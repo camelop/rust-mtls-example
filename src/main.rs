@@ -13,14 +13,15 @@ async fn run_server() {
         .tls()
         .key_path("ca/localhost.key")
         .cert_path("ca/localhost.bundle.crt")
-        .client_auth_required_path("ca/ca.crt")
+        .client_auth_required_path("ca/second_ca.crt")
         .run(([0, 0, 0, 0], 3030))
         .await
 }
 
 async fn run_client() -> Result<(), reqwest::Error> {
+    let server_ca_file_loc = "ca/ca.crt";
     let mut buf = Vec::new();
-    File::open("ca/ca.crt")
+    File::open(server_ca_file_loc)
         .await
         .unwrap()
         .read_to_end(&mut buf)
@@ -30,8 +31,9 @@ async fn run_client() -> Result<(), reqwest::Error> {
 
     #[cfg(feature = "native-tls")]
     async fn get_identity() -> Identity {
+        let client_p12_file_loc = "ca/second_client.p12";
         let mut buf = Vec::new();
-        File::open("ca/client_0.p12")
+        File::open(client_p12_file_loc)
             .await
             .unwrap()
             .read_to_end(&mut buf)
@@ -43,8 +45,9 @@ async fn run_client() -> Result<(), reqwest::Error> {
     #[cfg(feature = "rustls-tls")]
     async fn get_identity() -> Identity {
         panic!("I don't know why 'Identity' with rustls-tls does not work.");
+        let client_pem_file_loc = "ca/second_client.pem";
         let mut buf = Vec::new();
-        File::open("ca/client_0.pem")
+        File::open(client_pem_file_loc)
             .await
             .unwrap()
             .read_to_end(&mut buf)
