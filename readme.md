@@ -23,6 +23,8 @@ Requirements:
 
 Notes:
 
+- **To successfully run the executable**, if you do not need two CAs in your configuration, you should replace all "second_ca" with "ca" in `main.rs`. The second_ca in the code only targets to demonstrate the option to configure different CAs separately and you can find more information in (13.) below.
+
 - To use this in a real-world scenario, please replace `localhost` with a meaningful domain name. Do not forget to also change it in the SAN (subjectAltName). Also do not forget to fill in meaningful information while generating CSRs.
 
 - To test the mTLS server in your browser (e.g. Chrome), please see [this nice post](https://blog.eldernode.com/install-root-certificate-in-chrome/) or search "manual install certification {your browser name}". However, please note that
