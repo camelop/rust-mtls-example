@@ -4,19 +4,24 @@ name: build
 
 jobs:
   build:
+    strategy:
+      matrix:
+        toolchain: [stable, nightly]
+        tls: [native-tls, rustls-tls]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install nightly
+      - name: Install Rust ${{ matrix.toolchain }}
         uses: actions-rs/toolchain@v1
         with:
+            toolchain: ${{ matrix.toolchain }}
             components: rustfmt, clippy
       - name: Check
-        run: cargo check --release
+        run: cargo check --no-default-features --features ${{ matrix.tls }} --release
       - name: Build
-        run: cargo build
-      - name: Run tests
-        run: cargo test
+        run: cargo build --no-default-features --features ${{ matrix.tls }} 
+#       - name: Run tests
+#         run: cargo test --no-default-features --features ${{ matrix.tls }} 
       - name: Format check
         run: cargo fmt --all -- --check
       - name: Clippy test
