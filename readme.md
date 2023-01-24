@@ -15,6 +15,10 @@ To run the example:
 4. (While the server is running) start another prompt and run `cargo run -- client` (note the white space). 
 5. If you see `"Hello, mTLS World!"`, your configuration is probably correct. Congratulations!
 
+To run the example with `rustls-tls` instead of `native-tls`, replace the command in step 2/3 above with:
+- `cargo run --no-default-features --features rustls-tls -- server`
+- `cargo run --no-default-features --features rustls-tls -- client`
+
 Requirements:
 
 - Rust & Cargo
@@ -170,9 +174,8 @@ Notes:
 
 ## Contributing
 
-There are still a few unclear issues, including:
+There is still an unclear issue:
 
-- Why the code does not work with `rustls-tls` feature using `.pem` Identity?
 - Why the certificate for the client must include the extension fields of SAN?
 
 If you know the answers or have better solutions, please feel free to share your thoughts or send issues/PRs. Contributions are greatly appreciated. 

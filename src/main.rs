@@ -44,20 +44,26 @@ async fn run_client() -> Result<(), reqwest::Error> {
 
     #[cfg(feature = "rustls-tls")]
     async fn get_identity() -> Identity {
-        panic!("I don't know why 'Identity' with rustls-tls does not work.");
         let client_pem_file_loc = "ca/second_client.pem";
         let mut buf = Vec::new();
         File::open(client_pem_file_loc)
             .await
             .unwrap()
             .read_to_end(&mut buf)
-            .await;
+            .await
+            .unwrap();
         reqwest::Identity::from_pem(&buf).unwrap()
     }
 
     let identity = get_identity().await;
 
-    let client = reqwest::Client::builder()
+    #[cfg(feature = "native-tls")]
+    let client = reqwest::Client::builder().use_native_tls();
+
+    #[cfg(feature = "rustls-tls")]
+    let client = reqwest::Client::builder().use_rustls_tls();
+
+    let client = client
         .tls_built_in_root_certs(false)
         .add_root_certificate(cert)
         .identity(identity)
